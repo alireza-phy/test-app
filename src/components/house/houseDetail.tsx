@@ -1,5 +1,4 @@
-import React, { useContext, useState } from "react";
-import house from "../../utils/images/house1.jpg";
+import { useContext, useState } from "react";
 import {
   Box,
   Card,
@@ -7,10 +6,6 @@ import {
   Typography,
   CardMedia,
   Grid,
-  Button,
-  Modal,
-  Fade,
-  Backdrop,
 } from "@mui/material";
 import KeyboardBackspaceOutlinedIcon from "@mui/icons-material/KeyboardBackspaceOutlined";
 import Layout from "../../common/layout";
@@ -26,28 +21,12 @@ import GarageOutlinedIcon from "@mui/icons-material/GarageOutlined";
 import HouseCard from "../home/houseCard";
 import { useNavigate, useParams } from "react-router-dom";
 import { Context } from "../../store/context";
-import types from "../../store/types";
+import DeleteModal from "../../common/deleteModal";
 
 type Props = {};
 
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 300,
-  bgcolor: "background.paper",
-  borderRadius: 4,
-  px: 12,
-  py: 4,
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "center",
-  gap: 2,
-};
-
 function HouseDetail({}: Props) {
-  const { dispatch, state } = useContext(Context);
+  const { state } = useContext(Context);
   const params = useParams();
   let navigate = useNavigate();
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
@@ -57,16 +36,6 @@ function HouseDetail({}: Props) {
   const handleOpenDeleteModal = (e: any) => {
     e.stopPropagation();
     setOpenDeleteModal && setOpenDeleteModal(true);
-  };
-  const handleCloseDeleteModal = (e: any) => {
-    e.stopPropagation();
-    setOpenDeleteModal && setOpenDeleteModal(false);
-  };
-
-  const handleDeleteHouse = () => {
-    setOpenDeleteModal && setOpenDeleteModal(false);
-    dispatch({ type: types.DeleteHouseCard, data: data?.id });
-    navigate(`/`);
   };
 
   return (
@@ -124,7 +93,7 @@ function HouseDetail({}: Props) {
                   </Box>
                   <Box sx={{ display: "flex", gap: 1 }}>
                     <LocationOnOutlinedIcon
-                      style={{ color: "#a6a6a6", fontSize: 24 }}
+                      style={{ color: "#a6a6a6", fontSize: 18 }}
                     />
                     <Typography variant="body1" color="#a6a6a6">
                       {data?.address?.addition}
@@ -136,7 +105,7 @@ function HouseDetail({}: Props) {
                   <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                     <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                       <EuroOutlinedIcon
-                        style={{ color: "#a6a6a6", fontSize: 24 }}
+                        style={{ color: "#a6a6a6", fontSize: 18 }}
                       />
                       <Typography
                         variant="body1"
@@ -148,7 +117,7 @@ function HouseDetail({}: Props) {
                     </Box>
                     <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                       <CropSquareOutlinedIcon
-                        style={{ color: "#a6a6a6", fontSize: 24 }}
+                        style={{ color: "#a6a6a6", fontSize: 18 }}
                       />
                       <Typography variant="body1" color="#535353">
                         {data?.size} m2
@@ -156,7 +125,7 @@ function HouseDetail({}: Props) {
                     </Box>
                     <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                       <CarpenterOutlinedIcon
-                        style={{ color: "#a6a6a6", fontSize: 24 }}
+                        style={{ color: "#a6a6a6", fontSize: 18 }}
                       />
                       <Typography
                         variant="body1"
@@ -170,7 +139,7 @@ function HouseDetail({}: Props) {
                   <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                     <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                       <BedOutlinedIcon
-                        style={{ color: "#a6a6a6", fontSize: 24 }}
+                        style={{ color: "#a6a6a6", fontSize: 18 }}
                       />
                       <Typography variant="body1" color="#535353">
                         {data?.bedrooms}
@@ -227,81 +196,11 @@ function HouseDetail({}: Props) {
                 </Box>
               </CardContent>
             </Card>
-            <Modal
-              aria-labelledby="transition-modal-title"
-              aria-describedby="transition-modal-description"
-              open={openDeleteModal}
-              onClose={handleCloseDeleteModal}
-              closeAfterTransition
-              slots={{ backdrop: Backdrop }}
-              slotProps={{
-                backdrop: {
-                  timeout: 500,
-                },
-              }}
-            >
-              <Fade in={openDeleteModal}>
-                <Box sx={style}>
-                  <Typography
-                    id="transition-modal-title"
-                    variant="h6"
-                    component="h2"
-                    fontWeight={600}
-                    textAlign="center"
-                  >
-                    Delete listing
-                  </Typography>
-                  <Box>
-                    <Typography
-                      variant="body2"
-                      id="transition-modal-description"
-                      textAlign="center"
-                    >
-                      Are you share you want to delete this listing?
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      id="transition-modal-description"
-                      textAlign="center"
-                      mb={3}
-                    >
-                      This action cannot be undone.
-                    </Typography>
-                  </Box>
-
-                  <Button
-                    onClick={handleDeleteHouse}
-                    variant="contained"
-                    color="primary"
-                    sx={{ padding: 1 }}
-                  >
-                    <Typography
-                      variant="h3"
-                      fontWeight={500}
-                      fontSize={12}
-                      textTransform="uppercase"
-                    >
-                      Yes,delete
-                    </Typography>
-                  </Button>
-                  <Button
-                    onClick={handleCloseDeleteModal}
-                    variant="contained"
-                    color="secondary"
-                    sx={{ padding: 1 }}
-                  >
-                    <Typography
-                      variant="h3"
-                      fontWeight={500}
-                      fontSize={12}
-                      textTransform="uppercase"
-                    >
-                      Go back
-                    </Typography>
-                  </Button>
-                </Box>
-              </Fade>
-            </Modal>
+            <DeleteModal
+              id={data?.id}
+              openDeleteModal={openDeleteModal}
+              setOpenDeleteModal={setOpenDeleteModal}
+            />
           </Grid>
           <Grid item xs={5}>
             <Typography
