@@ -1,7 +1,7 @@
 import React from "react";
 import { CustomizedNavbar } from "./styles";
 import { routes } from "../../routes/Routes";
-import { SvgIcon, Link, Typography } from "@mui/material";
+import { SvgIcon, Link, Typography, Container } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import { ReactComponent as Logo } from "../../utils/images/logo.svg";
 
@@ -17,19 +17,23 @@ function Navbar({}: Props) {
   console.log(location);
   return (
     <CustomizedNavbar>
-      <SvgIcon fontSize="huge">
-        <Logo />
-      </SvgIcon>
-      {navbarItems?.map((item) => (
-        <Link href={`${item?.address}`} underline="none" key={item?.id}>
-          <Typography
-            fontWeight="bold"
-            color={location?.pathname === item?.address ? "black" : "inherit"}
-          >
-            {item?.title}
-          </Typography>
-        </Link>
-      ))}
+      <Container
+        sx={{ maxWidth: "md", display: "flex", gap: 6, alignItems: "center" }}
+      >
+        <SvgIcon fontSize="huge">
+          <Logo />
+        </SvgIcon>
+        {navbarItems?.map((item) => (
+          <Link href={`${item?.address}`} underline="none" key={item?.id}>
+            <Typography
+              fontWeight="bold"
+              color={location?.pathname === item?.address ? "black" : "inherit"}
+            >
+              {item?.title}
+            </Typography>
+          </Link>
+        ))}
+      </Container>
     </CustomizedNavbar>
   );
 }

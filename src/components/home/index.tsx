@@ -11,6 +11,8 @@ import {
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { styled } from "@mui/material/styles";
+import HouseCards from "./houseCards";
+import { useNavigate } from "react-router-dom";
 
 const CustomizedToggleButton = styled(ToggleButton)(({ theme }) => ({
   backgroundColor: "#c3c3c3",
@@ -36,6 +38,7 @@ type Props = {};
 
 const Home = (props: Props) => {
   const [sort, setSort] = useState("price");
+  let navigate = useNavigate();
 
   const handleChangeSort = (
     event: React.MouseEvent<HTMLElement>,
@@ -54,13 +57,13 @@ const Home = (props: Props) => {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            mx: 4,
           }}
         >
-          <Typography variant="h1" fontWeight="bold" fontSize={18}>
+          <Typography variant="h1" fontWeight="bold" fontSize={24}>
             Houses
           </Typography>
           <Button
+          onClick={() => navigate(`/house/create`)}
             variant="contained"
             color="primary"
             startIcon={
@@ -84,7 +87,6 @@ const Home = (props: Props) => {
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            mx: 4,
           }}
         >
           <OutlinedInput
@@ -113,6 +115,7 @@ const Home = (props: Props) => {
             <CustomizedToggleButton value="size">size</CustomizedToggleButton>
           </ToggleButtonGroup>
         </Box>
+        <HouseCards />
       </Box>
     </Layout>
   );

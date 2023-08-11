@@ -2,13 +2,11 @@ import React, { lazy } from "react";
 import { routes } from "./Routes";
 import * as ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-
+import Home from "../components/home";
+import About from "../components/about";
+import HouseDetail from "../components/house/houseDetail";
+import HouseCreateOrEdit from "../components/house/houseCreateOrEdit";
 type Props = {};
-
-const Home = lazy(() => import("../components/home"));
-const About = lazy(() => import("../components/about"));
-const HouseDetail = lazy(() => import("../components/house/houseDetail"));
-const HouseCreateOrEdit = lazy(() => import("../components/house/houseCreateOrEdit"));
 
 const router = createBrowserRouter([
   {

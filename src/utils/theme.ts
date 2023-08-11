@@ -3,6 +3,7 @@ import { createTheme } from "@mui/material/styles";
 declare module "@mui/material/SvgIcon" {
   interface SvgIconPropsSizeOverrides {
     huge: true;
+    veryHuge: true;
   }
 }
 
@@ -13,12 +14,17 @@ export const theme = createTheme({
       light: "#ec8a7c",
       contrastText: "white",
     },
+    secondary: {
+      main: "#626262",
+      light: "#898989",
+      contrastText: "white",
+    },
   },
   components: {
     MuiTypography: {
       styleOverrides: {
         root: {
-          fontSize: "14px !important",
+          // fontSize: "14px !important",
         },
       },
     },
@@ -39,6 +45,12 @@ export const theme = createTheme({
           props: { fontSize: "huge" },
           style: {
             fontSize: "4rem",
+          },
+        },
+        {
+          props: { fontSize: "veryHuge" },
+          style: {
+            fontSize: "8rem",
           },
         },
       ],
