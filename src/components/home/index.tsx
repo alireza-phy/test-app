@@ -1,69 +1,119 @@
-import React, { useState } from "react";
-import Layout from "../../common/layout";
+import React, { useState, useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Context } from "../../store/context";
+import Debounce from "../../utils/debounced";
+import { IHouse } from "../../store/context";
 import {
-  Box,
   Typography,
   Button,
-  OutlinedInput,
   InputAdornment,
   ToggleButtonGroup,
-  ToggleButton,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { styled } from "@mui/material/styles";
+import RecordController from "../../utils/controller";
 import HouseCards from "./houseCards";
-import { useNavigate } from "react-router-dom";
+import Layout from "../../common/layout";
 
-const CustomizedToggleButton = styled(ToggleButton)(({ theme }) => ({
-  backgroundColor: "#c3c3c3",
-  color: "white",
-  textTransform: "capitalize",
-  width: "8rem",
-  height: "2rem",
-  "&.Mui-selected": {
-    backgroundColor: theme?.palette?.primary.main,
-    color: "white",
-  },
-  "&.Mui-selected:hover": {
-    backgroundColor: theme?.palette?.primary.main,
-    color: "white",
-  },
-  "&:hover": {
-    backgroundColor: theme?.palette?.primary.light,
-    color: "white",
-  },
-}));
+import {
+  HomeWrapper,
+  HomeHeader,
+  HomeActions,
+  SearchInput,
+  CustomizedToggleButton,
+} from "./styles";
+
+const generalConfigs = (search: string) => {
+  return [
+    {
+      query: search,
+      property: ["address", "street"],
+    },
+    {
+      query: search,
+      property: ["address", "city"],
+    },
+    {
+      query: search,
+      property: "size",
+    },
+    {
+      query: search,
+      property: "bedrooms",
+    },
+    {
+      query: search,
+      property: "bathrooms",
+    },
+  ];
+};
 
 type Props = {};
 
 const Home = (props: Props) => {
+  const { state } = useContext(Context);
+  const [search, setSearch] = useState("");
   const [sort, setSort] = useState("price");
+  const [housesList, setHousesList] = useState<IHouse[] | any>(state?.houses);
   let navigate = useNavigate();
 
   const handleChangeSort = (
     event: React.MouseEvent<HTMLElement>,
     newAlignment: string
   ) => {
-    setSort(newAlignment);
+    if (newAlignment) {
+      setSort(newAlignment);
+      let newList: any[] | undefined = RecordController.search(
+        state.houses,
+        generalConfigs(search)
+      );
+      newList = RecordController.sort(newList, {
+        property: newAlignment,
+        query: -1,
+        type: "number",
+      });
+      setHousesList(newList);
+    }
   };
+  const debouncedSearch = Debounce((config: any) => {
+    let newList: IHouse[] | any[] | undefined = RecordController.search(
+      state.houses,
+      config
+    );
+    newList = RecordController.sort(newList, {
+      property: sort,
+      query: -1,
+      type: "number",
+    });
+    setHousesList(newList);
+  }, 700);
+
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(event?.target?.value);
+    debouncedSearch(generalConfigs(event?.target?.value));
+  };
+
+  useEffect(() => {
+    let newList: any[] | undefined = RecordController.search(
+      state.houses,
+      generalConfigs(search)
+    );
+    newList = RecordController.sort(newList, {
+      property: sort,
+      query: -1,
+      type: "number",
+    });
+    setHousesList(newList);
+  }, [state?.houses]);
 
   return (
     <Layout>
-      <Box
-        sx={{ width: "100%", display: "flex", flexDirection: "column", gap: 3 }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <Typography variant="h1" fontWeight="bold" fontSize={24}>
+      <HomeWrapper>
+        <HomeHeader>
+          <Typography className="title" variant="h1">
             Houses
           </Typography>
           <Button
-          onClick={() => navigate(`/house/create`)}
+            onClick={() => navigate(`/house/create`)}
             variant="contained"
             color="primary"
             startIcon={
@@ -81,22 +131,14 @@ const Home = (props: Props) => {
               Create New
             </Typography>
           </Button>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <OutlinedInput
+        </HomeHeader>
+        <HomeActions>
+          <SearchInput
             id="outlined-adornment-weight"
             size="small"
-            sx={{
-              "& fieldset": { border: "none" },
-              backgroundColor: "#e8e8e8",
-            }}
             placeholder="Search for a house"
+            value={search}
+            onChange={handleSearch}
             startAdornment={
               <InputAdornment position="start">
                 <SearchIcon />
@@ -114,9 +156,9 @@ const Home = (props: Props) => {
             <CustomizedToggleButton value="price">price</CustomizedToggleButton>
             <CustomizedToggleButton value="size">size</CustomizedToggleButton>
           </ToggleButtonGroup>
-        </Box>
-        <HouseCards />
-      </Box>
+        </HomeActions>
+        <HouseCards houses={housesList} userId={state?.userId} />
+      </HomeWrapper>
     </Layout>
   );
 };

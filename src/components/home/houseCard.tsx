@@ -1,25 +1,22 @@
 import { useState } from "react";
-import {
-  Box,
-  Card,
-  CardContent,
-  Typography,
-  CardActionArea,
-} from "@mui/material";
+import { Box, Card, Typography, CardActionArea } from "@mui/material";
 import BedOutlinedIcon from "@mui/icons-material/BedOutlined";
 import BathtubOutlinedIcon from "@mui/icons-material/BathtubOutlined";
 import CropSquareOutlinedIcon from "@mui/icons-material/CropSquareOutlined";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 import { useNavigate } from "react-router-dom";
+
+import { HouseCardContent, HouseDetails, HousNumber } from "./styles";
 import DeleteModal from "../../common/deleteModal";
 
 type Props = {
   data: any;
   editBtns?: boolean;
+  userId?: string;
 };
 
-function HouseCard({ data, editBtns = true }: Props) {
+function HouseCard({ data, editBtns = true, userId }: Props) {
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
 
   let navigate = useNavigate();
@@ -30,50 +27,35 @@ function HouseCard({ data, editBtns = true }: Props) {
   };
 
   const handleCardClick = (id: string) => {
-    console.log(id);
     navigate(`/house/${id}`);
   };
 
   return (
     <Card>
       <CardActionArea onClick={() => handleCardClick(data?.id)}>
-        <CardContent
-          sx={{
-            position: "relative",
-            p: 2,
-            display: "flex",
-            justifyContent: "start",
-            gap: 2,
-            alignItems: "center",
-          }}
-        >
+        <HouseCardContent>
           <img
             src={data?.image}
             alt="house"
+            className="image"
             width={136}
             height={136}
-            style={{ borderRadius: 8 }}
             loading="lazy"
           />
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 1,
-              alignItems: "start",
-            }}
-          >
-            <Box sx={{ display: "flex", gap: 1 }}>
+          <HouseDetails>
+            <HousNumber>
               <Typography variant="h6" fontWeight={600} component="div">
                 {data?.address?.street}
               </Typography>
               <Typography variant="h6" fontWeight={600} component="div">
                 {data?.address?.houseNumber}
               </Typography>
-            </Box>
+            </HousNumber>
+
             <Typography variant="body1" fontWeight={600} color="#535353">
               &euro; {parseFloat(data?.price).toFixed(3)}
             </Typography>
+
             <Box sx={{ display: "flex", gap: 1 }}>
               <Typography variant="body1" color="#a6a6a6">
                 {data?.address?.addition}
@@ -82,6 +64,7 @@ function HouseCard({ data, editBtns = true }: Props) {
                 {data?.address?.city}
               </Typography>
             </Box>
+
             <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                 <BedOutlinedIcon style={{ color: "#a6a6a6", fontSize: 24 }} />
@@ -106,8 +89,8 @@ function HouseCard({ data, editBtns = true }: Props) {
                 </Typography>
               </Box>
             </Box>
-          </Box>
-          {editBtns && (
+          </HouseDetails>
+          {editBtns && userId === data?.creatorId && (
             <Box
               sx={{
                 zIndex: 1000,
@@ -135,7 +118,7 @@ function HouseCard({ data, editBtns = true }: Props) {
               />
             </Box>
           )}
-        </CardContent>
+        </HouseCardContent>
       </CardActionArea>
       <DeleteModal
         id={data?.id}

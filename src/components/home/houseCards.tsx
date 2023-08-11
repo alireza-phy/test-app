@@ -1,32 +1,21 @@
+import React from "react";
 import { Box } from "@mui/material";
-import React, { useContext, useState } from "react";
 import HouseCard from "./houseCard";
-import { Context } from "../../store/context";
-import types from "../../store/types";
-
-type Props = {};
+import { HouseCardsContainer } from "./styles";
+import { IHouse } from "../../store/context";
+type Props = { houses: IHouse[] ,userId:string | undefined};
 
 const HouseCards = (props: Props) => {
-  const { dispatch, state } = useContext(Context);
-  console.log(state);
-
-
+  const { houses ,userId} = props;
   return (
-    <Box
-      sx={{
-        width: "full",
-        display: "flex",
-        flexDirection: "column",
-        gap: 2,
-      }}
-    >
-      {state?.houses &&
-        state?.houses?.map((house) => (
+    <HouseCardsContainer>
+      {houses &&
+        houses?.map((house) => (
           <Box key={house.id}>
-            <HouseCard data={house} />
+            <HouseCard data={house} userId={userId} />
           </Box>
         ))}
-    </Box>
+    </HouseCardsContainer>
   );
 };
 

@@ -15,7 +15,7 @@ export const initialState: any = {
         addition: "1011AA",
       },
       image: house,
-      price: "500.000",
+      price: "500",
       size: 120,
       garage: "no",
       bedrooms: 1,
@@ -28,15 +28,15 @@ export const initialState: any = {
       id: "124",
       creatorId: "234",
       address: {
-        street: "Stockvisstraat",
+        street: "house",
         houseNumber: "132",
         postalCode: 2,
         city: "Amsterdam",
         addition: "1011AA",
       },
       image: house,
-      price: "500.000",
-      size: 120,
+      price: "200",
+      size: 720,
       garage: "yes",
       bedrooms: 1,
       bathrooms: 1,
@@ -48,15 +48,15 @@ export const initialState: any = {
       id: "125",
       creatorId: "234",
       address: {
-        street: "Stockvisstraat",
+        street: "schicago",
         houseNumber: "132",
         postalCode: 2,
         city: "Amsterdam",
         addition: "1011AA",
       },
       image: house,
-      price: "500.000",
-      size: 120,
+      price: "400",
+      size: 320,
       garage: "yes",
       bedrooms: 1,
       bathrooms: 1,
@@ -65,6 +65,7 @@ export const initialState: any = {
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
     },
   ],
+  userId: "12345",
 };
 
 export const reducer = (state = initialState, action: any) => {
@@ -87,9 +88,6 @@ export const reducer = (state = initialState, action: any) => {
         houses: updatedHouses,
       };
     case types.CreateHouseCard:
-      console.log(data);
-      console.log(state?.houses);
-
       return {
         ...state,
         houses: [...state.houses, data],

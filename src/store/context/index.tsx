@@ -23,6 +23,7 @@ export type IHouse = {
 };
 
 type HousesType = {
+  userId: string;
   houses: IHouse[];
 };
 

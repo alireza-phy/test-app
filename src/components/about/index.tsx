@@ -1,35 +1,16 @@
 import React from "react";
-import { Box, Link, SvgIcon, Typography } from "@mui/material";
+import { Link, Stack, SvgIcon, Typography } from "@mui/material";
 import { ReactComponent as Logo } from "../../utils/images/logo.svg";
 import Layout from "../../common/layout";
-
+import { AboutContainer, AboutTitle, AboutDescription } from "./styles";
 type Props = {};
 
 const About = (props: Props) => {
   return (
     <Layout>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "start",
-          gap: 2,
-        }}
-      >
-        <Typography
-          variant="h3"
-          fontWeight={600}
-          textAlign="left"
-          component="div"
-        >
-          About DTT Real State
-        </Typography>
-        <Typography
-          variant="body1"
-          fontWeight={400}
-          textAlign="justify"
-          component="div"
-        >
+      <AboutContainer>
+        <AboutTitle variant="h3">About DTT Real State</AboutTitle>
+        <AboutDescription variant="body1">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
           minim veniam, quis nostrud exercitation ullamco laboris nisi ut
@@ -37,51 +18,26 @@ const About = (props: Props) => {
           reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
           pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
           culpa qui officia deserunt mollit anim id est laborum.
-        </Typography>
-        <Typography
-          variant="body1"
-          fontWeight={400}
-          textAlign="justify"
-          component="div"
-        >
+        </AboutDescription>
+        <AboutDescription variant="body1">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        </Typography>
-        <Typography
-          variant="h3"
-          fontWeight={600}
-          textAlign="left"
-          component="div"
-        >
-          Design and Development
-        </Typography>
-        <Box
-          sx={{
-            display: "flex",
-            gap: 3,
-            justifyContent: "start",
-            alignItems: "center",
-          }}
-        >
+        </AboutDescription>
+        <AboutTitle variant="h3">Design and Development</AboutTitle>
+        <Stack className="icons-wrapper">
           <SvgIcon fontSize="veryHuge">
             <Logo />
           </SvgIcon>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "start",
-            }}
-          >
+          <Stack className="text-container">
             <Typography variant="body2" textAlign="left" component="div">
               By DTT
             </Typography>
             <Link href="/www.d-tt.nl/" underline="hover" color="blue">
               www.d-tt.nl
             </Link>
-          </Box>
-        </Box>
-      </Box>
+          </Stack>
+        </Stack>
+      </AboutContainer>
     </Layout>
   );
 };

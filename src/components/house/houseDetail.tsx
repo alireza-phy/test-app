@@ -170,30 +170,32 @@ function HouseDetail({}: Props) {
                     {data?.description}
                   </Typography>
                 </Box>
-                <Box
-                  sx={{
-                    zIndex: 1000,
-                    position: "absolute",
-                    top: 12,
-                    right: 12,
-                    display: "flex",
-                    gap: 1,
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <EditIcon
-                    color="primary"
-                    fontSize="medium"
-                    sx={{ cursor: "pointer" }}
-                    onClick={() => navigate(`/house/edit/${data?.id}`)}
-                  />
-                  <DeleteForeverOutlinedIcon
-                    fontSize="medium"
-                    style={{ color: "#535353", cursor: "pointer" }}
-                    onClick={handleOpenDeleteModal}
-                  />
-                </Box>
+                {state?.userId === data?.creatorId && (
+                  <Box
+                    sx={{
+                      zIndex: 1000,
+                      position: "absolute",
+                      top: 12,
+                      right: 12,
+                      display: "flex",
+                      gap: 1,
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <EditIcon
+                      color="primary"
+                      fontSize="medium"
+                      sx={{ cursor: "pointer" }}
+                      onClick={() => navigate(`/house/edit/${data?.id}`)}
+                    />
+                    <DeleteForeverOutlinedIcon
+                      fontSize="medium"
+                      style={{ color: "#535353", cursor: "pointer" }}
+                      onClick={handleOpenDeleteModal}
+                    />
+                  </Box>
+                )}
               </CardContent>
             </Card>
             <DeleteModal
@@ -214,9 +216,9 @@ function HouseDetail({}: Props) {
             </Typography>
             <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
               {state?.houses &&
-                state?.houses.map((house) => (
+                state?.houses?.map((house) => (
                   <Box key={house.id}>
-                    <HouseCard editBtns={false} data={house} />
+                    <HouseCard editBtns={false} data={house}/>
                   </Box>
                 ))}
             </Box>

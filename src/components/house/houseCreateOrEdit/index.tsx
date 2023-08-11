@@ -137,7 +137,7 @@ function HouseCreateOrEdit({}: Props) {
       description: data?.description,
     };
 
-    console.log(finalData);
+    
     dispatch({ type: types?.CreateHouseCard, data: finalData });
     reset();
     navigate(`/`);

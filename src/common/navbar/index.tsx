@@ -1,10 +1,11 @@
 import React from "react";
-import { CustomizedNavbar } from "./styles";
-import { routes } from "../../routes/Routes";
-import { SvgIcon, Link, Typography, Container, Button } from "@mui/material";
-import { useLocation } from "react-router-dom";
-import { ReactComponent as Logo } from "../../utils/images/logo.svg";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+
+import { CustomizedNavbar, NavbarContainer, NavbarItem } from "./styles";
+import { routes } from "../../routes/Routes";
+import { SvgIcon, Link, Typography, Button } from "@mui/material";
+import { ReactComponent as Logo } from "../../utils/images/logo.svg";
 
 type Props = {};
 
@@ -19,27 +20,23 @@ function Navbar({}: Props) {
 
   return (
     <CustomizedNavbar>
-      <Container
-        sx={{ maxWidth: "md", display: "flex", gap: 6, alignItems: "center" }}
-      >
+      <NavbarContainer>
         <SvgIcon fontSize="huge">
           <Logo />
         </SvgIcon>
         {navbarItems?.map((item) => (
           <Button key={item?.id} onClick={() => navigate(`${item?.address}`)}>
-            <Typography
-              fontWeight="bold"
-              color={
-                location?.pathname === item?.address
-                  ? "black"
-                  : "secondary.light"
+            <NavbarItem
+              // fontWeight="bold"
+              isselected={
+                location?.pathname === item?.address? "true" : "false"
               }
             >
               {item?.title}
-            </Typography>
+            </NavbarItem>
           </Button>
         ))}
-      </Container>
+      </NavbarContainer>
     </CustomizedNavbar>
   );
 }
