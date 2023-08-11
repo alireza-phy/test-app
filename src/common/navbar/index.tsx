@@ -1,9 +1,10 @@
 import React from "react";
 import { CustomizedNavbar } from "./styles";
 import { routes } from "../../routes/Routes";
-import { SvgIcon, Link, Typography, Container } from "@mui/material";
+import { SvgIcon, Link, Typography, Container, Button } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import { ReactComponent as Logo } from "../../utils/images/logo.svg";
+import { useNavigate } from "react-router-dom";
 
 type Props = {};
 
@@ -14,7 +15,8 @@ const navbarItems = [
 
 function Navbar({}: Props) {
   const location = useLocation();
-  console.log(location);
+  let navigate = useNavigate();
+
   return (
     <CustomizedNavbar>
       <Container
@@ -24,14 +26,18 @@ function Navbar({}: Props) {
           <Logo />
         </SvgIcon>
         {navbarItems?.map((item) => (
-          <Link href={`${item?.address}`} underline="none" key={item?.id}>
+          <Button key={item?.id} onClick={() => navigate(`${item?.address}`)}>
             <Typography
               fontWeight="bold"
-              color={location?.pathname === item?.address ? "black" : "inherit"}
+              color={
+                location?.pathname === item?.address
+                  ? "black"
+                  : "secondary.light"
+              }
             >
               {item?.title}
             </Typography>
-          </Link>
+          </Button>
         ))}
       </Container>
     </CustomizedNavbar>

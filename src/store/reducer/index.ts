@@ -1,6 +1,6 @@
 import types from "../types";
 import house from "../../utils/images/house1.jpg";
-import { Ihouse } from "../context";
+import { IHouse } from "../context";
 
 export const initialState: any = {
   houses: [
@@ -17,11 +17,12 @@ export const initialState: any = {
       image: house,
       price: "500.000",
       size: 120,
-      garage: true,
+      garage: "no",
       bedrooms: 1,
       bathrooms: 1,
-      constructionData: "",
-      description: "",
+      constructionDate: 2012,
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
     },
     {
       id: "124",
@@ -36,11 +37,12 @@ export const initialState: any = {
       image: house,
       price: "500.000",
       size: 120,
-      garage: true,
+      garage: "yes",
       bedrooms: 1,
       bathrooms: 1,
-      constructionData: "",
-      description: "",
+      constructionDate: 2012,
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
     },
     {
       id: "125",
@@ -55,11 +57,12 @@ export const initialState: any = {
       image: house,
       price: "500.000",
       size: 120,
-      garage: true,
+      garage: "yes",
       bedrooms: 1,
       bathrooms: 1,
-      constructionData: "",
-      description: "",
+      constructionDate: 2012,
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
     },
   ],
 };
@@ -69,14 +72,14 @@ export const reducer = (state = initialState, action: any) => {
   switch (type) {
     case types.DeleteHouseCard:
       const newHouses = state?.houses?.filter(
-        (item: Ihouse) => item?.id !== data
+        (item: IHouse) => item?.id !== data
       );
       return {
         ...state,
         houses: newHouses,
       };
     case types.EditHouseCard:
-      const updatedHouses = state?.houses?.map((item: Ihouse) =>
+      const updatedHouses = state?.houses?.map((item: IHouse) =>
         item?.id !== data?.id ? data : item
       );
       return {
@@ -84,10 +87,12 @@ export const reducer = (state = initialState, action: any) => {
         houses: updatedHouses,
       };
     case types.CreateHouseCard:
-      const addedHouses = state?.houses?.push(data);
+      console.log(data);
+      console.log(state?.houses);
+
       return {
         ...state,
-        houses: addedHouses,
+        houses: [...state.houses, data],
       };
 
     default:

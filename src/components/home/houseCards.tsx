@@ -10,7 +10,6 @@ const HouseCards = (props: Props) => {
   const { dispatch, state } = useContext(Context);
   console.log(state);
 
-  // dispatch({type:types?.DeleteHouseCard, data:"id"})
 
   return (
     <Box

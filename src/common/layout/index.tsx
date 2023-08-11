@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "../navbar";
 import { LayoutContainer } from "./styles";
-import { Container } from "@mui/material";
+import { Container, Box } from "@mui/material";
 type Props = {
   children: JSX.Element;
 };
@@ -10,7 +10,9 @@ function Layout({ children }: Props) {
   return (
     <LayoutContainer>
       <Navbar />
-      <Container sx={{ mt: 4, maxWidth: "sm" }}>{children}</Container>
+      <Box sx={{ position: "relative" }}>
+        <Container sx={{ pt: 4, maxWidth: "md" }}>{children}</Container>
+      </Box>
     </LayoutContainer>
   );
 }

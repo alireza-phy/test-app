@@ -2,7 +2,7 @@ import React, { Dispatch, createContext, useReducer, ReactNode } from "react";
 import * as store from "../reducer";
 type Props = { children: ReactNode };
 
-export type Ihouse = {
+export type IHouse = {
   id: string;
   creatorId: string;
   address: {
@@ -12,18 +12,18 @@ export type Ihouse = {
     city: string;
     addition: string;
   };
-  image: File;
+  image: string;
   price: string;
   size: number;
-  garage: true;
+  garage: string;
   bedrooms: number;
   bathrooms: number;
-  constructionData: number;
+  constructionDate: number;
   description: string;
 };
 
 type HousesType = {
-  houses: Ihouse[];
+  houses: IHouse[];
 };
 
 export const Context = createContext<{
